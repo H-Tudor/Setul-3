@@ -49,9 +49,9 @@ namespace Setul_3 {
 				case 18:
 					break;
 				case 19:
-					break;
+					throw new NotImplementedException();
 				case 20:
-					break;
+					throw new NotImplementedException();
 				case 21:
 					break;
 				case 22:
@@ -63,7 +63,8 @@ namespace Setul_3 {
 				case 25:
 					break;
 				case 26:
-					break;
+					Console.WriteLine("Vezi proiect numere mari / Big number");
+					throw new NotImplementedException();
 				case 27:
 					break;
 				case 28:
@@ -71,6 +72,7 @@ namespace Setul_3 {
 				case 29:
 					break;
 				case 30:
+					ArrayPrintConsole(ArrayTwoCriteriaSort(ArrayGet(), ArrayGet()));
 					break;
 				case 31:
 					break;
@@ -96,25 +98,71 @@ namespace Setul_3 {
 			return int.MinValue;
 		}
 
-		static int[] ArrayTwoCriteriaSort(int[] array, int[] weights) {
+		/*
+		 Two Criteria Sort: Normal sort until you have two consecutive equal numbers, then compare weights, also, when switching elements, switch the weights too		 
+		 */
 
+		static int[] ArrayTwoCriteriaSort(int[] array, int[] weights) {
+			bool ok;			
+			do {
+				ok = true;
+				for(int i = 0; i < array.Length - 1; i++) {
+					if(array[i] > array[i+1]) {
+						ok = false;
+						(array[i], array[i + 1]) = (array[i + 1], array[i]);
+						(weights[i], weights[i + 1]) = (weights[i + 1], weights[i]);
+					} else if(array[i] == array[i+1]) {
+						if(weights[i] > weights[i + 1]) {
+							ok = false;
+							(array[i], array[i + 1]) = (array[i + 1], array[i]);
+							(weights[i], weights[i + 1]) = (weights[i + 1], weights[i]);
+						}
+					}
+				}
+			} while(!ok);
+			return array;
 		}
 
 		/*
-			1. Check if array.length != 1; if false, return the element array
+			1. Check if array.length is 1; if so, return the array
 			2. Determine the half-point
-			3. Create 2 new arrays of array.length / 2 (ceil first, floor last)
+			3. Create 2 new arrays of array.length / 2 (ceil first, floor last) and copy the content of the original array in the apropriate positions
 			4. For each of them call (recursive) the above code
 			5. Merge the 2 resulting arrays.
-			
-
 		 */
 
-		static int[] ArrayMergeSort(int[] array, int left, int mid, int rigth) {
+		static int[] ArrayMergeSort(int[] array) {
+			if(array.Length == 1)
+				return array;
 
+			int halfLength = array.Length / 2;
+
+			int[] a = new int[halfLength + 1];
+			int[] b = new int[halfLength / 2];
+
+			for(int i = 0; i <= halfLength / 2; i++)
+				a[i] = array[i];
+
+			for(int i = 0; i < halfLength; i++) {
+				b[i] = array[i + halfLength + 1];
+			}
+
+			a = ArrayMergeSort(a);
+			b = ArrayMergeSort(b);
+
+			return ArrayMerge(a, b);
 		}
 
-		static int[] ArrayQuickSortStart(int[] array) {
+
+		/*
+		1. Choose "random" pivot index
+		2. Swap the the element at the pivot position with the last element
+		3. Search for "itemFromLeft" (IFL) (0 -> IFR index), an item larger that the pivot element
+		4. Search for "itemFromRight" (IFR) (n - 1 -> IFL index), an item smaller than the pivot element
+		5. Partition the Array in pre-pivot index and after-pivot index 
+		 */
+
+		static int[] ArrayQuickSort(int[] array) {
 			ArrayQuickSort(array, 0, array.Length - 1);
 			return array;
 		}
@@ -170,7 +218,7 @@ namespace Setul_3 {
 					c[k] = a[i];
 					k++;
 					i++;
-				}	
+				}
 
 				while(j < b.Length) {
 					c[k] = b[j];
@@ -592,7 +640,13 @@ namespace Setul_3 {
 			return sum;
 		}
 
-		static int[] ArrayGet(string displayText = "Enter array", bool requireN = false) {
+		static void ArrayPrintConsole(int[] array) {
+			for(int i = 0; i < array.Length; i++)
+				Console.Write($"{array[i]} ");
+			Console.WriteLine();
+		}
+
+		static int[] ArrayGet(string displayText = "array", bool requireN = false) {
 			int n = 0;
 			int[] array;
 			string[] buffer;
@@ -603,7 +657,7 @@ namespace Setul_3 {
 					throw new Exception("Bad Input");
 			}
 
-			Console.WriteLine($"{displayText}: ");
+			Console.WriteLine($"Enter {displayText}: ");
 			buffer = Console.ReadLine().Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
 			if(requireN == true) {
