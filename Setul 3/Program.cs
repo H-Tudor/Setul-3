@@ -4,77 +4,106 @@ using System.Collections.Generic;
 namespace Setul_3 {
 	internal class Program {
 		static void Main(string[] args) {
-			int n;
+			int n = IntGet();
 
-			Console.WriteLine("Enter ex. number:");
-			if(int.TryParse(Console.ReadLine().Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0], out n) == false)
-				throw new Exception("Bad Input");
 
 			switch(n) {
 				case 1:
-					Console.WriteLine($"Sum = {ArraySum(ArrayGet())}");
+					Console.WriteLine($"Sum: {ArraySum(ArrayGet())}");
 					break;
 				case 2:
+					Console.WriteLine($"First Occurence: {ArrayFirstOccurence(ArrayGet(), IntGet("position"))}");
 					break;
 				case 3:
+					int[] p = ArrayMinMaxPositions(ArrayGet());
+					Console.WriteLine($"Min: {p[0]}, Max: {p[1]}");
 					break;
 				case 4:
+					int[,] po = ArrayMinMaxOccurence(ArrayGet());
+					Console.WriteLine($"Min: {po[0,0]} x {po[1, 0]}, Max: {po[1, 0]} x {po[1, 1]}");
 					break;
 				case 5:
+					ArrayPrintConsole(ArrayInsert(ArrayGet(), IntGet("value"), IntGet("position")));
 					break;
 				case 6:
+					ArrayPrintConsole(ArrayDelete(ArrayGet(), IntGet("position")));
 					break;
 				case 7:
+					ArrayPrintConsole(ArrayReverse(ArrayGet()));
 					break;
 				case 8:
+					ArrayPrintConsole(ArrayShiftLeft(ArrayGet(), 1));
 					break;
 				case 9:
+					ArrayPrintConsole(ArrayShiftLeft(ArrayGet(), IntGet("positions")));
 					break;
 				case 10:
+					Console.WriteLine(ArrayBinarySearch(ArrayGet(), IntGet("k")));
 					break;
 				case 11:
+					ArrayPrintConsole(EratostenesChirus(IntGet()));
 					break;
 				case 12:
+					ArrayPrintConsole(ArraySelectionSort(ArrayGet()));
 					break;
 				case 13:
+					ArrayPrintConsole(ArrayInsertionSort(ArrayGet()));
 					break;
 				case 14:
+					ArrayPrintConsole(ArrayMoveZerosToEnd(ArrayGet()));
 					break;
 				case 15:
+					ArrayPrintConsole(ArrayRemoveDuplicates(ArrayGet()));
 					break;
 				case 16:
+					Console.WriteLine($"CMMDC: {ArrayGreatestCommonDivisor(ArrayGet())}");
 					break;
 				case 17:
+
 					break;
 				case 18:
+					Console.WriteLine(ArrayPolynomial(ArrayGet(), IntGet()));
 					break;
 				case 19:
-					throw new NotImplementedException();
+					Console.WriteLine(KMPSearch(ArrayGet("source"), ArrayGet("pattern")));
+					break;
 				case 20:
 					throw new NotImplementedException();
 				case 21:
+					ArrayPrintConsole(ArrayCompare(ArrayGet("first array"), ArrayGet("second array")));
 					break;
 				case 22:
+					int[] a = ArrayGet("first array");
+					int[] b = ArrayGet("second array");
+
+					ArrayPrintConsole(ArrayIntersect(a, b));
+					ArrayPrintConsole(ArrayReunion(a, b));
+					ArrayPrintConsole(ArrayDiff1(a, b));
 					break;
 				case 23:
 					break;
-				case 24:
+				case 24:	
 					break;
 				case 25:
+					ArrayPrintConsole(ArrayMerge(ArrayGet("first array"), ArrayGet("second array")));
 					break;
 				case 26:
 					Console.WriteLine("Vezi proiect numere mari / Big number");
 					throw new NotImplementedException();
 				case 27:
+					Console.WriteLine(ArrayAfterSortPosition(ArrayGet(), IntGet()));
 					break;
 				case 28:
+					ArrayPrintConsole(ArrayQuickSort(ArrayGet()));
 					break;
 				case 29:
+					ArrayPrintConsole(ArrayMergeSort(ArrayGet()));
 					break;
 				case 30:
-					ArrayPrintConsole(ArrayTwoCriteriaSort(ArrayGet(), ArrayGet()));
+					ArrayPrintConsole(ArrayTwoCriteriaSort(ArrayGet("array to sort"), ArrayGet("array of weights")));
 					break;
 				case 31:
+					Console.WriteLine(ArrayMajorityValue(ArrayGet()));
 					break;
 				default:
 					Console.WriteLine("Incorrect ex. number");
@@ -188,6 +217,11 @@ namespace Setul_3 {
 
 			(array[high], array[i + 1]) = (array[i + 1], array[high]);
 			return (i + 1);
+		}
+
+		static int ArrayAfterSortPosition(int[] array, int index) {
+			array = ArrayQuickSort(array);
+			return array[index];
 		}
 
 		static int[] ArrayMerge(int[] a, int[] b) {
@@ -313,7 +347,7 @@ namespace Setul_3 {
 			return minLength == a.Length ? a : b;
 		}
 
-		static int KMPSearch(int[] pat, int[] txt) {
+		static int KMPSearch(int[] txt, int[] pat) {
 			int numberOfOccurences = 0;
 
 			int M = pat.Length;
@@ -322,7 +356,7 @@ namespace Setul_3 {
 			int[] lps = new int[M];
 			int j = 0;
 
-			computeLPSArray(pat, M, lps);
+			ComputeLPSArray(pat, M, lps);
 
 			int i = 0;
 			while((N - i) >= (M - j)) {
@@ -344,7 +378,7 @@ namespace Setul_3 {
 			return numberOfOccurences;
 		}
 
-		static void computeLPSArray(int[] pat, int M, int[] lps) {
+		static void ComputeLPSArray(int[] pat, int M, int[] lps) {
 			int len = 0;
 			int i = 1;
 			lps[0] = 0;
@@ -501,32 +535,25 @@ namespace Setul_3 {
 			return array;
 		}
 
-		static int[] AllPrimesSmallerThan(int n) {
-			int k = 0;
-			int[] p = new int[n];
+		static int[] EratostenesChirus(int n) {
+			int[] array = new int[n + 1];
+			int counter =  0;
 
-			for(int i = 0; i < n; i++)
-				if(PrimeNumber(i)) {
-					p[k] = i;
-					k++;
+			for(int i = 2; i < n + 1; i++) {
+				for(int j = i + 1; j < n + 2; j++) {
+					if(j % i == 0)
+						array[i]++;
 				}
+			}
 
-			return p;
-		}
+			List<int> primes = new List<int>();
+			for(int i = 0; i < n; i++) {
+				if(array[i] == 0) {
+					primes.Add(array[i]);
+				}
+			}
 
-		static bool PrimeNumber(int n) {
-			if(n < 2)
-				return false;
-			if(n == 2)
-				return true;
-			if(n % 2 == 0)
-				return false;
-
-			for(int i = 3; i < Math.Sqrt(n); i += 2)
-				if(n % i == 0)
-					return false;
-
-			return true;
+			return primes.ToArray();
 		}
 
 		static int ArrayBinarySearch(int[] array, int value) {
@@ -592,7 +619,6 @@ namespace Setul_3 {
 		static int[,] ArrayMinMaxOccurence(int[] array) {
 			int[,] p = new int[2, 2] { { int.MaxValue, int.MinValue }, { 0, 0 } };
 			Dictionary<int, int> occurence = new Dictionary<int, int>();
-			int k = 0;
 
 			for(int i = 0; i < array.Length; i++) {
 				occurence[array[i]]++;
@@ -644,6 +670,15 @@ namespace Setul_3 {
 			for(int i = 0; i < array.Length; i++)
 				Console.Write($"{array[i]} ");
 			Console.WriteLine();
+		}
+
+		static int IntGet(string displayText = "number") {
+			int n;
+			Console.WriteLine($"Enter {displayText}: ");
+			if(int.TryParse(Console.ReadLine().Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0], out n) == false)
+				throw new Exception("Bad Input");
+
+			return n;
 		}
 
 		static int[] ArrayGet(string displayText = "array", bool requireN = false) {
