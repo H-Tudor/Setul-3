@@ -4,111 +4,117 @@ using System.Collections.Generic;
 namespace Setul_3 {
 	internal class Program {
 		static void Main(string[] args) {
-			int n = IntGet();
+			int n;
+			bool ok = true;
 
+			while(ok) { 
+				n = IntGet("ex. id");
+				switch(n) {
+					case 1:
+						Console.WriteLine($"Sum: {ArraySum(ArrayGet())}");
+						break;
+					case 2:
+						Console.WriteLine($"First Occurence: {ArrayFirstOccurence(ArrayGet(), IntGet("position"))}");
+						break;
+					case 3:
+						int[] p = ArrayMinMaxPositions(ArrayGet());
+						Console.WriteLine($"Min: {p[0]}, Max: {p[1]}");
+						break;
+					case 4:
+						int[,] po = ArrayMinMaxOccurence(ArrayGet());
+						Console.WriteLine($"Min: {po[0,0]} x {po[1, 0]}, Max: {po[1, 0]} x {po[1, 1]}");
+						break;
+					case 5:
+						ArrayPrintConsole(ArrayInsert(ArrayGet(), IntGet("value"), IntGet("position")));
+						break;
+					case 6:
+						ArrayPrintConsole(ArrayDelete(ArrayGet(), IntGet("position")));
+						break;
+					case 7:
+						ArrayPrintConsole(ArrayReverse(ArrayGet()));
+						break;
+					case 8:
+						ArrayPrintConsole(ArrayShiftLeft(ArrayGet(), 1));
+						break;
+					case 9:
+						ArrayPrintConsole(ArrayShiftLeft(ArrayGet(), IntGet("positions")));
+						break;
+					case 10:
+						Console.WriteLine(ArrayBinarySearch(ArrayGet(), IntGet("k")));
+						break;
+					case 11:
+						ArrayPrintConsole(EratostenesChirus(IntGet()));
+						break;
+					case 12:
+						ArrayPrintConsole(ArraySelectionSort(ArrayGet()));
+						break;
+					case 13:
+						ArrayPrintConsole(ArrayInsertionSort(ArrayGet()));
+						break;
+					case 14:
+						ArrayPrintConsole(ArrayMoveZerosToEnd(ArrayGet()));
+						break;
+					case 15:
+						ArrayPrintConsole(ArrayRemoveDuplicates(ArrayGet()));
+						break;
+					case 16:
+						Console.WriteLine($"CMMDC: {ArrayGreatestCommonDivisor(ArrayGet())}");
+						break;
+					case 17:
+						Console.WriteLine(ConvertFromTen(GetNumberToConvert(), GetConversionToBase()));
+						break;
+					case 18:
+						Console.WriteLine(ArrayPolynomial(ArrayGet(), IntGet()));
+						break;
+					case 19:
+						Console.WriteLine(KMPSearch(ArrayGet("source"), ArrayGet("pattern")));
+						break;
+					case 20:
+						Console.WriteLine($"Overlaps: {ArrayShiftingCompare(ArrayGet(), ArrayGet())}");
+						break;
+					case 21:
+						ArrayPrintConsole(ArrayCompare(ArrayGet("first array"), ArrayGet("second array")));
+						break;
+					case 22:
+						int[] a = ArrayGet("first array");
+						int[] b = ArrayGet("second array");
 
-			switch(n) {
-				case 1:
-					Console.WriteLine($"Sum: {ArraySum(ArrayGet())}");
-					break;
-				case 2:
-					Console.WriteLine($"First Occurence: {ArrayFirstOccurence(ArrayGet(), IntGet("position"))}");
-					break;
-				case 3:
-					int[] p = ArrayMinMaxPositions(ArrayGet());
-					Console.WriteLine($"Min: {p[0]}, Max: {p[1]}");
-					break;
-				case 4:
-					int[,] po = ArrayMinMaxOccurence(ArrayGet());
-					Console.WriteLine($"Min: {po[0,0]} x {po[1, 0]}, Max: {po[1, 0]} x {po[1, 1]}");
-					break;
-				case 5:
-					ArrayPrintConsole(ArrayInsert(ArrayGet(), IntGet("value"), IntGet("position")));
-					break;
-				case 6:
-					ArrayPrintConsole(ArrayDelete(ArrayGet(), IntGet("position")));
-					break;
-				case 7:
-					ArrayPrintConsole(ArrayReverse(ArrayGet()));
-					break;
-				case 8:
-					ArrayPrintConsole(ArrayShiftLeft(ArrayGet(), 1));
-					break;
-				case 9:
-					ArrayPrintConsole(ArrayShiftLeft(ArrayGet(), IntGet("positions")));
-					break;
-				case 10:
-					Console.WriteLine(ArrayBinarySearch(ArrayGet(), IntGet("k")));
-					break;
-				case 11:
-					ArrayPrintConsole(EratostenesChirus(IntGet()));
-					break;
-				case 12:
-					ArrayPrintConsole(ArraySelectionSort(ArrayGet()));
-					break;
-				case 13:
-					ArrayPrintConsole(ArrayInsertionSort(ArrayGet()));
-					break;
-				case 14:
-					ArrayPrintConsole(ArrayMoveZerosToEnd(ArrayGet()));
-					break;
-				case 15:
-					ArrayPrintConsole(ArrayRemoveDuplicates(ArrayGet()));
-					break;
-				case 16:
-					Console.WriteLine($"CMMDC: {ArrayGreatestCommonDivisor(ArrayGet())}");
-					break;
-				case 17:
+						ArrayPrintConsole(ArrayIntersect(a, b));
+						ArrayPrintConsole(ArrayReunion(a, b));
+						ArrayPrintConsole(ArrayDiff1(a, b));
+						break;
+					case 23:
 
-					break;
-				case 18:
-					Console.WriteLine(ArrayPolynomial(ArrayGet(), IntGet()));
-					break;
-				case 19:
-					Console.WriteLine(KMPSearch(ArrayGet("source"), ArrayGet("pattern")));
-					break;
-				case 20:
-					throw new NotImplementedException();
-				case 21:
-					ArrayPrintConsole(ArrayCompare(ArrayGet("first array"), ArrayGet("second array")));
-					break;
-				case 22:
-					int[] a = ArrayGet("first array");
-					int[] b = ArrayGet("second array");
+						break;
+					case 24:
 
-					ArrayPrintConsole(ArrayIntersect(a, b));
-					ArrayPrintConsole(ArrayReunion(a, b));
-					ArrayPrintConsole(ArrayDiff1(a, b));
-					break;
-				case 23:
-					break;
-				case 24:	
-					break;
-				case 25:
-					ArrayPrintConsole(ArrayMerge(ArrayGet("first array"), ArrayGet("second array")));
-					break;
-				case 26:
-					Console.WriteLine("Vezi proiect numere mari / Big number");
-					throw new NotImplementedException();
-				case 27:
-					Console.WriteLine(ArrayAfterSortPosition(ArrayGet(), IntGet()));
-					break;
-				case 28:
-					ArrayPrintConsole(ArrayQuickSort(ArrayGet()));
-					break;
-				case 29:
-					ArrayPrintConsole(ArrayMergeSort(ArrayGet()));
-					break;
-				case 30:
-					ArrayPrintConsole(ArrayTwoCriteriaSort(ArrayGet("array to sort"), ArrayGet("array of weights")));
-					break;
-				case 31:
-					Console.WriteLine(ArrayMajorityValue(ArrayGet()));
-					break;
-				default:
-					Console.WriteLine("Incorrect ex. number");
-					break;
-
+						break;
+					case 25:
+						ArrayPrintConsole(ArrayMerge(ArrayGet("first array"), ArrayGet("second array")));
+						break;
+					case 26:
+						Console.WriteLine("Vezi proiect numere mari / Big number");
+						throw new NotImplementedException();
+					case 27:
+						Console.WriteLine(ArrayAfterSortPosition(ArrayGet(), IntGet()));
+						break;
+					case 28:
+						ArrayPrintConsole(ArrayQuickSort(ArrayGet()));
+						break;
+					case 29:
+						ArrayPrintConsole(ArrayMergeSort(ArrayGet()));
+						break;
+					case 30:
+						ArrayPrintConsole(ArrayTwoCriteriaSort(ArrayGet("array to sort"), ArrayGet("array of weights")));
+						break;
+					case 31:
+						Console.WriteLine(ArrayMajorityValue(ArrayGet()));
+						break;
+					default:
+						Console.WriteLine("Incorrect ex. number");
+						ok = false;
+						break;
+				}
 			}
 
 			Console.ReadKey();
@@ -345,6 +351,23 @@ namespace Setul_3 {
 			}
 
 			return minLength == a.Length ? a : b;
+		}
+
+		static int ArrayShiftingCompare(int[] a, int[] b) {
+			if(a.Length != b.Length)
+				return 0;
+
+			int count = 0;
+
+			for(int i = 0; i < b.Length) {
+				for(int j = 0; j < a.Length; j++) {
+					if(a[j] == b[j])
+						count++;
+				}
+				b = ArrayShiftLeft(b, 1);
+			}
+
+			return count;
 		}
 
 		static int KMPSearch(int[] txt, int[] pat) {
