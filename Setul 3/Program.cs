@@ -81,13 +81,14 @@ namespace Setul_3 {
 
 						ArrayPrintConsole(ArrayIntersect(a, b));
 						ArrayPrintConsole(ArrayReunion(a, b));
-						ArrayPrintConsole(ArrayDiff1(a, b));
+						ArrayPrintConsole(ArrayDiff(a, b));
+						ArrayPrintConsole(ArrayDiff(b, a));
 						break;
 					case 23:
-
+						//TODO: Implement intersect, reunion & diff1 / diff2 for orderd array
 						break;
 					case 24:
-
+						//TODO: Implement intersect, reunion & diff1 / diff2 for binary array
 						break;
 					case 25:
 						ArrayPrintConsole(ArrayMerge(ArrayGet("first array"), ArrayGet("second array")));
@@ -226,8 +227,15 @@ namespace Setul_3 {
 		}
 
 		static int ArrayAfterSortPosition(int[] array, int index) {
-			array = ArrayQuickSort(array);
-			return array[index];
+			int value = array[index];
+			int counter = 0;
+
+			for(int i = 0; i < array.Length; i++) {
+				if(array[i] < array[index])
+					counter++;
+			}
+
+			return counter;
 		}
 
 		static int[] ArrayMerge(int[] a, int[] b) {
@@ -270,7 +278,62 @@ namespace Setul_3 {
 			return c;
 		}
 
-		static int[] ArrayDiff1(int[] a, int[] b) {
+		//static int[] ArrayOrderedReunion(int[] a, int[] b) {
+		//	a = ArrayRemoveDuplicates(a);
+		//	b = ArrayRemoveDuplicates(b);
+
+		//}
+
+		//static int[] ArrayOrderedIntersection(int[] a, int[] b) {
+		//	a = ArrayRemoveDuplicates(a);
+		//	b = ArrayRemoveDuplicates(b);
+
+		//	int start = Math.Max(a[0], b[0]);
+		//	bool startPosToggle = start == a[0];
+		//	int startPos = startPosToggle ? ArrayBinarySearch(b, a[0]) : ArrayBinarySearch(a, b[0]);
+
+		//	int endPos = Math.Min(a.Length, b.Length);
+		//	bool endToggle = a.Length == endPos;
+
+		//	if(start == -1)
+		//		return Array.Empty<int>();
+
+		//	int[] array = new int[endPos];
+		//	int i = startPosToggle ? startPos : 0, j = startPosToggle ? 0 : startPos, k = 0;
+
+		//	while(i < a.Length && j < b.Length && k < array.Length) {
+		//		if(a[i] == b[j]) {
+		//			array[k] = a[i];
+		//			i++; j++; k++;
+		//		} else {
+
+		//		}
+		//	}
+
+		//	return array;
+		//}
+
+		static int[] ArrayOrderedDiff(int[] a, int[] b) {
+			a = ArrayRemoveDuplicates(a);
+			b = ArrayRemoveDuplicates(b);
+
+			if(a.Length <= b.Length)
+				return new int[0];
+
+			int k = 0;
+			int newLength = a.Length - b.Length;
+			int[] array = new int[newLength];
+
+			for(int i = a.Length; i >= b.Length; i--) {
+				array[k] = a[i];
+				k++;
+			}
+
+			array = ArrayRemoveDuplicates(array);
+			return array;
+		}
+
+		static int[] ArrayDiff(int[] a, int[] b) {
 			a = ArrayRemoveDuplicates(a);
 			b = ArrayRemoveDuplicates(b);
 			int[] c = new int[a.Length];
@@ -359,7 +422,7 @@ namespace Setul_3 {
 
 			int count = 0;
 
-			for(int i = 0; i < b.Length) {
+			for(int i = 0; i < b.Length; i++) {
 				for(int j = 0; j < a.Length; j++) {
 					if(a[j] == b[j])
 						count++;
